@@ -1,2 +1,9 @@
 # CS361_SleepTracker
-Microservice for sleep tracking
+
+Created as a part of CS361 - Software Engineering I 
+Oregon State University 
+Summer 2025
+
+
+# Communication Contract 
+
