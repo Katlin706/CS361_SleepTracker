@@ -11,3 +11,7 @@ Summer 2025 </br>
 <li>How to <strong>RECEIVE</strong> data from the microservice:</li>
 <li>UML Sequence Diagram:</li>
 </ol>
+
+
+
+    
