@@ -2,7 +2,7 @@ import json
 import zmq
 
 failure_message = '{"status":"error"}'
-success_message = '{"status":"success}'
+success_message = '{"status":"success"}'
 
 
 def is_valid_json(input_string):
@@ -31,16 +31,44 @@ def json_evaluation(input_json):
 
 
 def delete_all():
-    with
-    socket.send_string(success_message)
+    with open("sleep.json", "w") as file:
+        pass
+        socket.send_string(success_message)
 
 
 def retrieve_data(input_dictionary):
-    socket.send_string("I got to days requested send!")
+    with open("sleep.json", "r+") as file:
+        contents = file.read()
+        if len(contents) == 0:
+            socket.send_string('{"status":"error, "details":"There are no sleep logs"}')
+        file.seek(0)
+        sleep_list = json.load(file)
+        if len(sleep_list) < input_dictionary["days_requested"]:
+            socket.send_string('{"status":"error, "details":"There are not enough sleep logs"}')
+        else:
+            sorted_sleep = sorted(sleep_list, key=lambda item: item["date"], reverse=True)
+            running_sum = 0
+            running_sleep_list = []
+            for night in range(0, input_dictionary["days_requested"]):
+                running_sleep_list.append(sorted_sleep[night])
+                running_sum += sorted_sleep[night]["duration"]
+            average = running_sum / input_dictionary["days_requested"]
+            socket.send_string('{"sleep_data":' + str(running_sleep_list) + ', average:' + str(average) + '}')
 
 
 def log_data(input_dictionary):
-    socket.send_string("i got here!")
+    with open("sleep.json", "r+") as file:
+        contents = file.read()
+        if len(contents) == 0:
+            json.dump([], file)
+        file.seek(0)
+        sleep_list = json.load(file)
+        sleep_list.append(input_dictionary)
+        file.truncate()
+        file.seek(0)
+        json.dump(sleep_list, file, indent=4)
+        file.close()
+    socket.send_string(success_message)
 
 
 context = zmq.Context()
