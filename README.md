@@ -1,9 +1,3 @@
-# CS361_SleepTracker
-
-Created as a part of CS361 - Software Engineering I </br>
-Oregon State University  </br>
-Summer 2025 </br>
-
 # Communication Contract 
 
 <ol>
